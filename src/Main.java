@@ -13,12 +13,42 @@ import java.util.Scanner;
  * @author dell
  */
 public class Main {
+   private static void DisplayMeun() {
+        System.out.println("WELCOME TO STUDENT MANAGEMENT\n"
+                + "1. Create\n"
+                + "2. Find and Sort\n"
+                + "3. Update/Delete\n"
+                + "4. Report\n"
+                + "5. Exit\n"
+                + "(Please choose 1 to Create, 2 to Find and Sort, 3 to Update/Delete, 4 to Report and 5 to Exit program).");
+    }
 
+    
+  private static int GetChoice() {
+        Scanner sc = new Scanner(System.in);      
+        while (true) {            
+            System.out.print("Enter choice :");
+            int choice = sc.nextInt();
+            if (choice <= 5 && choice >= 1) {
+                return choice;
+            }else{
+                System.out.println("Invalid selection! Please re-enter your choice from 1 to 5");
+            }
+        }
+         
+    }
+     private static void AddData(ArrayList<Student> listStudents){
+        listStudents.add(new Student("1", "Tuan Anh", "1", "Java"));
+        listStudents.add(new Student("1", "Tuan Anh", "2", "Java"));
+        listStudents.add(new Student("2", "Hai Minh", "1", "Java"));
+        listStudents.add(new Student("2", "Hai Minh", "1", ".Net"));
+    }
+    
     public static void main(String[] args) {
 
         ManageStudents manager = new ManageStudents();
         ArrayList<Student> listStudents = new ArrayList<>();
-   
+        AddData(listStudents);
         while (true) {
             //Step1: Display menu.
             DisplayMeun();
@@ -44,39 +74,12 @@ public class Main {
                     break;
                 case 5:
                     //User choice 5: Exit
-                    Exit();
+                   System.exit(0);
             }
         }
 
     }
 
-    private static void DisplayMeun() {
-        System.out.println("WELCOME TO STUDENT MANAGEMENT\n"
-                + "1. Create\n"
-                + "2. Find and Sort\n"
-                + "3. Update/Delete\n"
-                + "4. Report\n"
-                + "5. Exit\n"
-                + "(Please choose 1 to Create, 2 to Find and Sort, 3 to Update/Delete, 4 to Report and 5 to Exit program).");
-    }
-
-    private static void Exit() {
-        System.exit(0);
-    }
-
-    private static int GetChoice() {
-        Scanner sc = new Scanner(System.in);      
-        while (true) {            
-            System.out.print("Enter choice :");
-            int choice = sc.nextInt();
-            if (choice <= 5 && choice >= 1) {
-                return choice;
-            }else{
-                System.out.println("Invalid selection! Please re-enter your choice from 1 to 5");
-            }
-        }
-         
-    }
-    
-    
+ 
+  
 }

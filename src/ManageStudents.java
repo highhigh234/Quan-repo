@@ -13,6 +13,74 @@ import java.util.ArrayList;
  */
 public class ManageStudents {
 
+    //Check Duplicate in list student
+    private boolean CheckDuplicate(String id, String Semester, String CourseName, ArrayList<Student> listStudents) {
+        //first student to last student of ListStudent array list.
+        for (Student student : listStudents) {
+            if (student.getId().equals(id) && student.getSemester().equals(Semester) && student.getCourseName().equals(CourseName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Check Duplicate ID
+    private boolean CheckDuplicateID(String id, ArrayList<Student> listStudents) {
+        //first student to last student of ListStudent array list.
+        for (Student student : listStudents) {
+            if (student.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    //Check Exist in list Report
+    private boolean CheckReportExist(Report newreport, ArrayList<Report> listReport) {
+        for (Report report : listReport) {
+            //Check newreport(getStudentName, CourseName) equal to report(getStudentName, CourseName).
+            if (newreport.getId().equals(report.getId())
+                    && newreport.getCourseName().equals(report.getCourseName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void getNewStudent(ArrayList<Student> listStudents) {
+        String id;
+        String CourseName;
+        String Semester;
+        String StudentName = "";
+        id = GetInput.getString("Enter student id :", "id Invalid", "[a-zA-Z0-9 .]+$");
+        //Check the input id with the id in the student list
+        if (CheckDuplicateID(id, listStudents)) {
+            //first student to last student of ListStudent array list.
+            for (int i = 0; i < listStudents.size(); i++) {
+                //id equals the id in the list
+                if (listStudents.get(i).getId().equals(id)) {
+                    StudentName = listStudents.get(i).getStudentName();
+                }
+            }
+
+        } else {
+            StudentName = GetInput.getString("Enter student name :", "Name student Invalid", "^[a-zA-Z ]+$");
+        }
+
+        Semester = GetInput.getString("Enter student semester :", "Semester Invalid", "^[1-9 ]+$");
+        CourseName = GetInput.getString("Enter student course name :", "There are only three courses: Java, .Net, C/C++",
+                "(Java)|(\\.Net)|(C/C.++)");
+        //id, Semester, CourseName equals the id,Semester, CourseName in the list
+        if (CheckDuplicate(id, Semester, CourseName, listStudents)) {
+            System.out.println("Duplicate!");
+        } else {
+            listStudents.add(new Student(id, StudentName, Semester, CourseName));
+            System.out.println("Success!");
+        }
+
+    }
+
     public void Create(ArrayList<Student> listStudents) {
         while (true) {
             //Yes or No condition depends on the number of students
@@ -56,8 +124,8 @@ public class ManageStudents {
 
         }
 
-        String searcherName = GetInput.getString("Enter search name(student name or a part of student name): ", 
-                                                        "Name Invalid", "^[a-zA-Z ]+$");
+        String searcherName = GetInput.getString("Enter search name(student name or a part of student name): ",
+                "Name Invalid", "^[a-zA-Z ]+$");
         int count = 0;
         boolean isExisted = false;
 
@@ -127,8 +195,8 @@ public class ManageStudents {
                                 StudentName = GetInput.getString("Enter student name :", "Name student Invalid", "^[a-zA-Z ]+$");
 
                                 String Semester = GetInput.getString("Enter student semester :", "Semester Invalid", "[1-9]+");
-                                String CourseName = GetInput.getString("Enter course student name :", "There are only three courses: Java, .Net, C/C++", 
-                                              "(Java)|(\\.Net)|(C/C.++)");
+                                String CourseName = GetInput.getString("Enter course student name :", "There are only three courses: Java, .Net, C/C++",
+                                        "(Java)|(\\.Net)|(C/C.++)");
                                 //Check Duplicate in the student list
                                 if (CheckDuplicate(id, Semester, CourseName, listStudents)) {
                                     System.out.println("Duplicate!");
@@ -151,7 +219,7 @@ public class ManageStudents {
 //                                //Delete all records in report list
 //                                listResult.removeAll(listResult);
                                 System.out.println("List after being updated:");
-                                System.out.format("%-15s%-30s%-15s%-15s\n", "ID", "Student name", "Semester", "Course Name");
+                                System.out.format("%-15s%-30s%-20s%-20s\n", "ID", "Student name", "Semester", "Course Name");
                                 //first student to last student of ListStudent array list
                                 for (Student student : listStudents) {
                                     System.out.println(student);
@@ -228,78 +296,10 @@ public class ManageStudents {
         //Loop use to traverse each object report from 
         //first report to last report of ListReport array list.
         for (Report report : ListReport) {
-            System.out.println(report.getStudentName() + "         |     " + report.getCourseName()
-                    + "       |      " + report.getTotalOfCourse());
+            System.out.format("%-30s%-20s%-20s\n",report.getStudentName(),report.getCourseName(),report.getTotalOfCourse());
+                   
         }
 
-    }
-
-    private void getNewStudent(ArrayList<Student> listStudents) {
-        String id;
-        String CourseName;
-        String Semester;
-        String StudentName = "";
-        id = GetInput.getString("Enter student id :", "id Invalid", "[a-zA-Z0-9 .]+$");
-        //Check the input id with the id in the student list
-        if (CheckDuplicateID(id, listStudents)) {
-            //first student to last student of ListStudent array list.
-            for (int i = 0; i < listStudents.size(); i++) {
-                //id equals the id in the list
-                if (listStudents.get(i).getId().equals(id)) {
-                    StudentName = listStudents.get(i).getStudentName();
-                }
-            }
-
-        } else {
-            StudentName = GetInput.getString("Enter student name :", "Name student Invalid", "^[a-zA-Z ]+$");
-        }
-
-        Semester = GetInput.getString("Enter student semester :", "Semester Invalid", "^[1-9 ]+$");
-        CourseName = GetInput.getString("Enter student course name :", "There are only three courses: Java, .Net, C/C++",
-                                                                        "(Java)|(\\.Net)|(C/C.++)");
-        //id, Semester, CourseName equals the id,Semester, CourseName in the list
-        if (CheckDuplicate(id, Semester, CourseName, listStudents)) {
-            System.out.println("Duplicate!");
-        } else {
-            listStudents.add(new Student(id, StudentName, Semester, CourseName));
-            System.out.println("Success!");
-        }
-
-    }
-
-    //Check Duplicate in list student
-    private boolean CheckDuplicate(String id, String Semester, String CourseName, ArrayList<Student> listStudents) {
-        //first student to last student of ListStudent array list.
-        for (Student student : listStudents) {
-            if (student.getId().equals(id) && student.getSemester().equals(Semester) && student.getCourseName().equals(CourseName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Check Duplicate ID
-    private boolean CheckDuplicateID(String id, ArrayList<Student> listStudents) {
-        //first student to last student of ListStudent array list.
-        for (Student student : listStudents) {
-            if (student.getId().equals(id)) {
-                return true;
-            }
-        }
-        return false;
-
-    }
-
-    //Check Exist in list Report
-    private boolean CheckReportExist(Report newreport, ArrayList<Report> listReport) {
-        for (Report report : listReport) {
-            //Check newreport(getStudentName, CourseName) equal to report(getStudentName, CourseName).
-            if (newreport.getId().equals(report.getId())
-                    && newreport.getCourseName().equals(report.getCourseName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }
